@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>pjXML - Pure JavaScript XML Library</title>
+  <meta name="description" content="pjXML - The Pure JavaScript XML library.">
+  <meta name="author" content="Scott Means">
+
+  <link rel="stylesheet" href="css/style.css?v=1.0">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <script src="js/jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+  <h1>pjXML - Pure JavaScript XML Library</h1>
+  <p>There are several XML wrapper libraries available for JavaScript that use
+    native XML objects (like <code>XMLHttpRequest</code>) to parse XML and provide
+    DOM access to the underlying document. This library is designed to provide
+    identical functionality on both the client and server sides for parsing,
+    manipulating, and emitting XML documents.</p>
+    <h2>usage</h2>
+    <pre class="code">
+      &lt;script src=&quot;js/pjxml.js&quot;&gt;&lt;/script&gt;
+
+      . . .
+
+      var doc = pjXML.parse('&lt;root&gt;Hello,&amp;#160;XML.&lt;/root&gt;');
+    </pre>
+    <textarea name="sampleXML" cols="60" rows="10">&lt;!--Hello, comment.--&gt;&lt;root&gt;Hello,&amp;#160;XML.&lt;/root&gt;</textarea>
+    <p><button name="parseSample">parse</button></p>
+    <pre name="sampleDom"></pre>
+  <script src="js/pjxml.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
