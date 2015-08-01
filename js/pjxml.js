@@ -311,7 +311,6 @@ var pjXML = (function () {
             }
 
             if (ch == '/') {
-              this.append(en);
               lex.consumeString('/>');
             } else if (ch == '>') {
               lex.nextChar();
@@ -344,6 +343,16 @@ var pjXML = (function () {
     }
 
     return s;
+  }
+  Node.prototype.firstElement = function () {
+    for (var i = 0; i < this.content.length; i++) {
+      var o = this.content[i];
+      if (o instanceof Node && o.type == node_types.ELEMENT_NODE) {
+        return o;
+      }
+    }
+
+    return null;
   }
 
   Node.prototype.text = function () {
