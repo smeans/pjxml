@@ -313,8 +313,6 @@ var pjXML = (function () {
             if (ch == '/') {
               this.append(en);
               lex.consumeString('/>');
-
-              return;
             } else if (ch == '>') {
               lex.nextChar();
               en.parse(lex);
