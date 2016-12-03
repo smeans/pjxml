@@ -404,3 +404,5 @@ var pjXML = (function () {
 
   return me;
 }());
+
+module.exports = pjXML;
