@@ -166,12 +166,12 @@ var pjXML = (function () {
   Lexer.prototype.parseExternalID = function () {
     if (this.consumeString('SYSTEM')) {
       this.skipSpace();
-      console.log(this.readString());
+      this.readString();
     } else if (this.consumeString('PUBLIC')) {
       this.skipSpace();
-      console.log(this.readQuotedString());
+      this.readQuotedString();
       this.skipSpace();
-      console.log(this.readQuotedString());
+      this.readQuotedString();
     }
   }
 
@@ -186,7 +186,6 @@ var pjXML = (function () {
     var v = this.replaceEntities(this.readQuotedString());
     this.consumeUntil('>');
     this.entities[n] = v;
-    console.log('ENTITY ' + n  + ' = ' + v);
   }
 
   Lexer.prototype.parseDecl = function () {
@@ -205,7 +204,7 @@ var pjXML = (function () {
        if (this.consumeString('ENTITY')) {
          this.parseEntityDecl();
        } else {
-         console.log(this.consumeUntil('>'));
+         this.consumeUntil('>');
        }
      }
   }
@@ -213,7 +212,7 @@ var pjXML = (function () {
   Lexer.prototype.parseDTD = function () {
     this.inDTD = true;
     this.skipSpace();
-    console.log(this.readName());
+    this.readName();
     this.skipSpace();
     this.parseExternalID();
     this.skipSpace();
@@ -329,6 +328,51 @@ var pjXML = (function () {
     }
   };
 
+  Node.prototype.select = function (xpath) {
+    if (!Array.isArray(xpath)) {
+      xpath = xpath.replace('//', '/>').split('/');
+      xpath = xpath.reduce((a, v) => {
+        if (v) {
+          a.push(v);
+        }
+
+        return a;
+      }, []);
+    }
+
+    if (xpath.length < 1) {
+      return [];
+    }
+
+    if (xpath[0][0] == '@') {
+      return  this.attributes ? [this.attributes[xpath[0].substr(1)]] : [];
+    }
+
+    var ra = [];
+
+    var exp = xpath[0];
+    var recurse = exp[0] == '>';
+    var name = recurse ? exp.substr(1) : exp;
+
+    var ea = this.elements(name);
+
+    if (xpath.length > 1) {
+      ea.map((el) => {
+        ra = ra.concat(el.select(xpath.slice(1)));
+      });
+    } else {
+      ra = ra.concat(ea);
+    }
+
+    if (recurse) {
+      this.elements().map((el) => {
+        ra = ra.concat(el.select(xpath));
+      });
+    }
+
+    return ra.length == 1 ? ra[0] : ra;
+  }
+
   function emitContent(node, func) {
     var s = '';
 
@@ -344,6 +388,7 @@ var pjXML = (function () {
 
     return s;
   }
+
   Node.prototype.firstElement = function () {
     for (var i = 0; i < this.content.length; i++) {
       var o = this.content[i];
@@ -353,6 +398,16 @@ var pjXML = (function () {
     }
 
     return null;
+  }
+
+  Node.prototype.elements = function (name) {
+    return this.content.reduce((ea, o) => {
+      if (o instanceof Node && o.type == node_types.ELEMENT_NODE && (!name || name == '*' || o.name == name)) {
+        ea.push(o);
+      }
+
+      return ea;
+    }, []);
   }
 
   Node.prototype.text = function () {
@@ -405,4 +460,6 @@ var pjXML = (function () {
   return me;
 }());
 
-module.exports = pjXML;
+if(typeof module === "object" && module.exports) {
+  module.exports = pjXML;
+}
