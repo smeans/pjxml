@@ -307,6 +307,7 @@ var pjXML = (function () {
               var an = lex.readName();
               lex.consumeString('=');
               en.attributes[an] = lex.replaceEntities(lex.readQuotedString());
+              lex.skipSpace();
             }
 
             if (ch == '/') {
