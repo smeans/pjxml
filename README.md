@@ -20,15 +20,19 @@ The `parse()` function returns a hierarchical object tree with each element mapp
 to one object. The text and element contents of each element are stored in an array in the
 `content` property. Any attributes are in the `attributes` property.
 ## finding things
-The select function supports a very minimal selection syntax. It returns an array
-of all elements that match the path given. The `//` operator matches recursively.
+The select function supports a very minimal XPath selection syntax. It returns an array of all elements that match the path given. If only one node matches,
+it returns a single node instead of an array. The `selectAll` method
+always returns an array.
+
+The `//` operator matches recursively.
+
 For example:
 ```
-var el = doc.select('//name');
+var el = doc.selectAll('//name');
 ```
 returns
 ```
-{"type":1,"content":["David Bowie"],"name":"name","attributes":{}}
+[{"type":1,"content":["David Bowie"],"name":"name","attributes":{}}]
 ```
 ## extracting text
 The `text()` method returns all text content for a given element and its children:

@@ -1,0 +1,27 @@
+{
+  "author": {
+    "name": "Scott Means"
+  },
+  "bugs": {
+    "url": "https://github.com/smeans/pjxml/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Pure JavaScript XML parser.",
+  "homepage": "https://github.com/smeans/pjxml#readme",
+  "keywords": [
+    "XML",
+    "parser"
+  ],
+  "license": "ISC",
+  "main": "pjxml.js",
+  "name": "pjxml",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smeans/pjxml.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.1.0"
+}

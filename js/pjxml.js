@@ -329,7 +329,7 @@ var pjXML = (function () {
     }
   };
 
-  Node.prototype.select = function (xpath) {
+  Node.prototype.selectAll = function (xpath) {
     if (!Array.isArray(xpath)) {
       xpath = xpath.replace('//', '/>').split('/');
       xpath = xpath.reduce((a, v) => {
@@ -371,7 +371,13 @@ var pjXML = (function () {
       });
     }
 
-    return ra.length == 1 ? ra[0] : ra;
+    return ra;
+  }
+
+  Node.prototype.select = function (xpath) {
+      var ra = this.selectAll(xpath);
+
+      return ra.length == 1 ? ra[0] : ra;
   }
 
   function emitContent(node, func) {
