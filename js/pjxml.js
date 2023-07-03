@@ -83,7 +83,7 @@ var pjXML = (function () {
     }
 
     var ch = this.read();
-    if (ch == '&' || (this.inDTD && ch == '%')) {
+    if (this.inDTD && ch == '%') {
       var er = '';
       while ((ch = this.read()) != ';' && ch) {
         er += ch;
@@ -268,7 +268,7 @@ var pjXML = (function () {
 
     while (ch = lex.nextChar()) {
       if (ch == '<') {
-        this.append(s);
+        this.append(lex.replaceEntities(s));
         s = '';
         ch = lex.nextChar();
         switch (ch) {
@@ -325,7 +325,7 @@ var pjXML = (function () {
     }
 
     if (s.length) {
-      this.append(s);
+      this.append(lex.replaceEntities(s));
     }
   };
 
