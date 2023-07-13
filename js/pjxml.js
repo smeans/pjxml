@@ -332,7 +332,7 @@ var pjXML = (function () {
   Node.prototype.selectAll = function (xpath) {
     if (!Array.isArray(xpath)) {
       xpath = xpath.replace('//', '/>').split('/');
-      xpath = xpath.reduce((a, v) => {
+      xpath = xpath.reduce(function (a, v) {
         if (v) {
           a.push(v);
         }
@@ -358,7 +358,7 @@ var pjXML = (function () {
     var ea = this.elements(name);
 
     if (xpath.length > 1) {
-      ea.map((el) => {
+      ea.map(function (el) {
         ra = ra.concat(el.select(xpath.slice(1)));
       });
     } else {
@@ -366,7 +366,7 @@ var pjXML = (function () {
     }
 
     if (recurse) {
-      this.elements().map((el) => {
+      this.elements().map(function (el) {
         ra = ra.concat(el.select(xpath));
       });
     }
@@ -408,7 +408,7 @@ var pjXML = (function () {
   }
 
   Node.prototype.elements = function (name) {
-    return this.content.reduce((ea, o) => {
+    return this.content.reduce(function (ea, o) {
       if (o instanceof Node && o.type == node_types.ELEMENT_NODE && (!name || name == '*' || o.name == name)) {
         ea.push(o);
       }
