@@ -463,6 +463,8 @@ var pjXML = (function () {
 
     return doc;
   }
+  
+  Object.assign(me, node_types);
 
   return me;
 }());
