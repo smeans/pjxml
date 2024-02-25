@@ -262,6 +262,18 @@ var pjXML = (function () {
     return this;
   }
 
+  Node.prototype.appendAll = function(o) {
+    if (o === null && o === undefined || typeof o[Symbol.iterator] !== 'fuction') {
+      this.content.push(o);
+
+      return
+    }
+
+    for (const v of o) {
+      this.content.push(o)
+    }
+  }
+
   Node.prototype.parse = function (lex) {
     var ch;
     var s = '';
@@ -329,7 +341,7 @@ var pjXML = (function () {
     }
   };
 
-  Node.prototype.selectAll = function (xpath) {
+  function xpathToArray(xpath) {
     if (!Array.isArray(xpath)) {
       xpath = xpath.replace('//', '/>').split('/');
       xpath = xpath.reduce(function (a, v) {
@@ -340,6 +352,32 @@ var pjXML = (function () {
         return a;
       }, []);
     }
+
+    return xpath;
+  }
+
+  Node.prototype.selectAll = function (xpath) {
+    if (typeof xpath === 'function') {
+      const ar = [];
+
+      function safWorker(nd) {
+        if (xpath(nd)) {
+          ar.push(nd);
+        }
+
+        const el = nd.elements();
+
+        for (let i = 0; i < el.length; i++) {
+          safWorker(el[i]);
+        }
+      }
+
+      safWorker(this);
+
+      return ar;
+    }
+
+    xpath = xpathToArray(xpath);
 
     if (xpath.length < 1) {
       return [];
@@ -415,6 +453,46 @@ var pjXML = (function () {
 
       return ea;
     }, []);
+  }
+
+  Node.prototype.clone = function() {
+    function copyValue(v) {
+      switch (typeof v) {
+        case 'string': {
+          return (' ' + v).slice(1);
+        }
+
+        case 'object': {
+          if (Array.isArray(v)) {
+            const a = Array(v.length);
+
+            for (let i = 0; i < v.length; i++) {
+              a[i] = copyValue(v[i]);
+            }
+
+            return a;
+          } else if (v.clone) {
+            return v.clone();
+          }
+
+          return JSON.parse(JSON.stringify(v));
+        }
+
+        default: {
+            return v;
+          }  
+      }
+    }
+
+    const o = new this.constructor();
+
+    for (const k in this) {
+      if (this.hasOwnProperty(k)) {
+        o[k] = copyValue(this[k]);
+      }
+    }
+
+    return o;
   }
 
   Node.prototype.text = function () {
