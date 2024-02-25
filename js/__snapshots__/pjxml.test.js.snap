@@ -1,0 +1,136 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse() 1`] = `
+Node {
+  "content": [
+    "",
+    Node {
+      "content": [
+        "xml version="1.0" encoding="UTF-8"",
+      ],
+      "type": 7,
+    },
+    
+"
+"
+,
+    Node {
+      "content": [
+        " test document for pjXML library ",
+      ],
+      "type": 8,
+    },
+    
+"
+
+"
+,
+    Node {
+      "attributes": {
+        "lang": "en",
+        "xml:lang": "en",
+        "xmlns": "http://www.w3.org/1999/xhtml",
+      },
+      "content": [
+        
+"
+  "
+,
+        Node {
+          "attributes": {},
+          "content": [
+            
+"
+    "
+,
+            Node {
+              "attributes": {},
+              "content": [
+                "Minimal XHTML 1.0 Document with W3C DTD",
+              ],
+              "name": "title",
+              "type": 1,
+            },
+            
+"
+  "
+,
+          ],
+          "name": "head",
+          "type": 1,
+        },
+        
+"
+  "
+,
+        Node {
+          "attributes": {},
+          "content": [
+            
+"
+    "
+,
+            Node {
+              "attributes": {
+                "title": "This is a <p> tag.",
+              },
+              "content": [
+                "This is a minimal ",
+                Node {
+                  "attributes": {
+                    "href": "http://www.w3.org/TR/xhtml1/",
+                  },
+                  "content": [
+                    "XHTML 1.0",
+                  ],
+                  "name": "a",
+                  "type": 1,
+                },
+                
+"
+    document with a W3C url for the DTD."
+,
+              ],
+              "name": "p",
+              "type": 1,
+            },
+            
+"
+  "
+,
+          ],
+          "name": "body",
+          "type": 1,
+        },
+        
+"
+"
+,
+      ],
+      "name": "html",
+      "type": 1,
+    },
+    
+"
+"
+,
+  ],
+  "type": 9,
+}
+`;
+
+exports[`parse() 2`] = `
+"
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Minimal XHTML 1.0 Document with W3C DTD</title>
+  </head>
+  <body>
+    <p title="This is a &lt;p&gt; tag.">This is a minimal <a href="http://www.w3.org/TR/xhtml1/">XHTML 1.0</a>
+    document with a W3C url for the DTD.</p>
+  </body>
+</html>
+"
+`;
