@@ -243,6 +243,8 @@ var pjXML = (function () {
 
   function Node(type) {
     this.type = type;
+    this.name = undefined;
+    this.attributes = undefined;
     this.content = [];
   };
 
