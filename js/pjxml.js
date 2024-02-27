@@ -490,6 +490,10 @@ var pjXML = (function () {
 
       return false;
     }
+
+    ptWorker(this);
+
+    return pts;
   }
 
   Node.prototype.firstElement = function () {
