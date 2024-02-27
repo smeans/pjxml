@@ -21,5 +21,6 @@
   <body>
     <p title="This is a&nbsp;&lt;p&gt; tag.">This is a minimal <a href="http://www.w3.org/TR/xhtml1/">XHTML 1.0</a>
     document with a W3C url for the DTD.</p>
+    <p>This is a second paragraph, which contains some <em>emphasized</em> text for no reason.</p>
   </body>
 </html>

@@ -478,7 +478,9 @@ var pjXML = (function () {
 
       for (let i = 0; i < ela.length; i++) {
         if (ela[i] === elt) {
-          pts.push(this);
+          pts.push(el);
+
+          return true;
         } else if (ptWorker(ela[i])) {
           pts.unshift(el);
           
