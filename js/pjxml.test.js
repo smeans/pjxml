@@ -8,4 +8,7 @@ test("parse()", () => {
 	expect(doc).toMatchSnapshot();
 	expect(doc.xml()).toMatchSnapshot();
 	expect(doc.clone().xml()).toBe(doc.xml());
+	const a = doc.select('//a');
+	const pa = doc.pathTo(a);
+	expect(pa).toMatchSnapshot();
 });
