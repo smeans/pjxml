@@ -263,15 +263,47 @@ var pjXML = (function () {
   }
 
   Node.prototype.appendAll = function(o) {
+    if (Array.isArray(o)) {
+      this.content.push(...o);
+
+      return;
+    }
+
     if (o === null && o === undefined || typeof o[Symbol.iterator] !== 'fuction') {
       this.content.push(o);
 
-      return
+      return;
     }
 
     for (const v of o) {
-      this.content.push(o)
+      this.content.push(v);
     }
+  }
+
+  Node.prototype.insert = function(i, o) {
+    if (Array.isArray(o)) {
+      this.content.splice(i, 0, ...o);
+    } else {
+      this.content.splice(i, 0, o);
+    }
+  }
+
+  Node.prototype.replace = function(i, o, c=1) {
+    if (Array.isArray(o)) {
+      this.content.splice(i, c, ...o);
+    } else {
+      this.content.splice(i, c, o);
+    }
+  }
+
+  Node.prototype.remove = function(o) {
+    const io = this.content.indexOf(o);
+
+    if (io < 0) {
+      return;
+    }
+
+    this.content.splice(io, 1);
   }
 
   Node.prototype.parse = function (lex) {
@@ -427,11 +459,35 @@ var pjXML = (function () {
       if (typeof o == 'string') {
         s += Lexer.escapeXML(o);
       } else {
-        s += o[func]();
+        if (typeof o[func] === 'function') {
+          s += o[func]();
+        }  else {
+          console.error(o, 'not a pjXML Node object');
+        }
       }
     }
 
     return s;
+  }
+
+  Node.prototype.pathTo = function (elt) {
+    const pts = [];
+
+    function ptWorker(el) {
+      const ela = el.elements();
+
+      for (let i = 0; i < ela.length; i++) {
+        if (ela[i] === elt) {
+          pts.push(this);
+        } else if (ptWorker(ela[i])) {
+          pts.unshift(el);
+          
+          return true;
+        }
+      }
+
+      return false;
+    }
   }
 
   Node.prototype.firstElement = function () {
@@ -446,13 +502,9 @@ var pjXML = (function () {
   }
 
   Node.prototype.elements = function (name) {
-    return this.content.reduce(function (ea, o) {
-      if (o instanceof Node && o.type == node_types.ELEMENT_NODE && (!name || name == '*' || o.name == name)) {
-        ea.push(o);
-      }
-
-      return ea;
-    }, []);
+    return this.content.filter(o => o instanceof Node
+        && o.type == node_types.ELEMENT_NODE
+        && (!name || name == '*' || o.name == name));
   }
 
   Node.prototype.clone = function() {
@@ -541,8 +593,10 @@ var pjXML = (function () {
 
     return doc;
   }
-  
+
   Object.assign(me, node_types);
+  
+  me.Node = Node;
 
   return me;
 }());
