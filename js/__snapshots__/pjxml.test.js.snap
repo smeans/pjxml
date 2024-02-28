@@ -2,12 +2,15 @@
 
 exports[`parse() 1`] = `
 Node {
+  "attributes": undefined,
   "content": [
     "",
     Node {
+      "attributes": undefined,
       "content": [
         "xml version="1.0" encoding="UTF-8"",
       ],
+      "name": undefined,
       "type": 7,
     },
     
@@ -15,9 +18,11 @@ Node {
 "
 ,
     Node {
+      "attributes": undefined,
       "content": [
         " test document for pjXML library ",
       ],
+      "name": undefined,
       "type": 8,
     },
     
@@ -136,6 +141,7 @@ Node {
 "
 ,
   ],
+  "name": undefined,
   "type": 9,
 }
 `;
@@ -160,12 +166,15 @@ exports[`parse() 2`] = `
 exports[`parse() 3`] = `
 [
   Node {
+    "attributes": undefined,
     "content": [
       "",
       Node {
+        "attributes": undefined,
         "content": [
           "xml version="1.0" encoding="UTF-8"",
         ],
+        "name": undefined,
         "type": 7,
       },
       
@@ -173,9 +182,11 @@ exports[`parse() 3`] = `
 "
 ,
       Node {
+        "attributes": undefined,
         "content": [
           " test document for pjXML library ",
         ],
+        "name": undefined,
         "type": 8,
       },
       
@@ -294,6 +305,7 @@ exports[`parse() 3`] = `
 "
 ,
     ],
+    "name": undefined,
     "type": 9,
   },
   Node {
