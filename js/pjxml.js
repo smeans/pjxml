@@ -351,8 +351,12 @@ var pjXML = (function () {
             while ((ch = lex.peek()) && (ch != '/' && ch != '>')) {
               lex.skipSpace();
               var an = lex.readName();
-              lex.consumeString('=');
-              en.attributes[an] = lex.replaceEntities(lex.readQuotedString());
+              if (lex.consumeString('=')) {
+                en.attributes[an] = lex.replaceEntities(lex.readQuotedString());
+              } else {
+                en.attributes[an] = null;
+              }
+              
               lex.skipSpace();
             }
 
@@ -568,7 +572,10 @@ var pjXML = (function () {
         if (this.attributes) {
           for (var name in this.attributes) {
             if (this.attributes.hasOwnProperty(name)) {
-              s += ' ' + name + '="' + Lexer.escapeXML(this.attributes[name]) + '"';
+              s += ' ' + name;
+              if (typeof this.attributes[name] === 'string') {
+                s += '="' + Lexer.escapeXML(this.attributes[name]) + '"';
+              }
             }
           }
         }
@@ -593,7 +600,7 @@ var pjXML = (function () {
     return s;
   }
 
-  me.parse = function (xml) {
+  me.parse = function (xml, opt) {
     var lex = new Lexer(xml);
 
     var doc = new Node(node_types.DOCUMENT_NODE);
