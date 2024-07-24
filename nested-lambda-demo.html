@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<script src='js/pjxml.js'></script>
+
+<script>
+function parsexml(text)
+{
+    const doc = pjXML.parse(text);
+    const paragraphs = document.getElementsByTagName("p");
+    for (var i = 0; i < paragraphs.length; ++i)
+    {
+        const val = paragraphs[i].id;
+        const key = isNaN(val) ? "name" : "number";
+        paragraphs[i].innerText = doc.selectAll(
+            r => !(r.name == "score-partwise") ? false :
+            r => !(r.name == "part") ? false :
+            r => !(r.name == "measure") ? false :
+            r => !(r.name == "note") ? false :
+            r => !(r.name == "lyric" && r.attributes[key] == val) ? false :
+            r => r.name == "text").map(node => node.text()).join(" | ");
+    }
+    content.innerText = text;
+}
+
+function filechange()
+{
+    const reader = new FileReader();
+    reader.addEventListener("load", () => parsexml(reader.result));
+    reader.readAsText(xml.files.item(0));
+}
+</script>
+
+<h3>Demo on parsing MusicXML with pjXML using nested lambdas</h3>
+<h4>Usage: Download <a href='https://lilypond.org/doc/v2.25/input/regression/musicxml/71/lily-1941d34e.xml'>lily-1941d34e.xml</a> and drop it into the below file input field.</h4>
+<input type='file' id='xml' onchange='filechange()'>
+<hr><p id='1'></p>
+<hr><p id='2'></p>
+<hr><p id='Verse'></p>
+<hr><p id='Chorus'></p>
+<hr><pre id='content'></pre>

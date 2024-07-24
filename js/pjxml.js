@@ -398,19 +398,28 @@ var pjXML = (function () {
     if (typeof xpath === 'function') {
       const ar = [];
 
-      function safWorker(nd) {
-        if (xpath(nd)) {
+      function safWorker(nd, xpath, depth) {
+        const res = xpath(nd);
+
+        if (typeof res === 'function') {
+          xpath = res;
+          depth = 2;
+        } else if (res) {
           ar.push(nd);
+        } else if (res === null) {
+          depth = 1;
         }
 
-        const el = nd.elements();
+        if (--depth) {
+          const el = nd.elements();
 
-        for (let i = 0; i < el.length; i++) {
-          safWorker(el[i]);
+          for (let i = 0; i < el.length; i++) {
+            safWorker(el[i], xpath, depth);
+          }
         }
       }
 
-      safWorker(this);
+      safWorker(this, xpath, 0);
 
       return ar;
     }
